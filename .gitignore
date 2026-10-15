@@ -1,0 +1,12 @@
+# Executáveis
+*.exe
+*.exe-
+*.dll
+*.so
+*.dylib
+cicd-learn
+
+# Dependências e Testes
+*.test
+*.out
+vendor/
