@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "MIhpX6bI8u333lVXRhNI9RdZ3BawdZ6Vx5xExAD2+IiZ30HVePYuS8fIq7cHSw0QfcxO7tyJuDeRt4UQLb+cIw==",
+  "success": true,
+  "projectFilePath": "/home/danilochristovam/projetos/cicd-learn/cicd-learn.csproj",
+  "expectedPackageFiles": [
+    "/home/danilochristovam/.nuget/packages/microsoft.aspnetcore.openapi/8.0.32/microsoft.aspnetcore.openapi.8.0.32.nupkg.sha512",
+    "/home/danilochristovam/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/home/danilochristovam/.nuget/packages/microsoft.openapi/1.6.31/microsoft.openapi.1.6.31.nupkg.sha512",
+    "/home/danilochristovam/.nuget/packages/sonaranalyzer.csharp/10.35.0.4138/sonaranalyzer.csharp.10.35.0.4138.nupkg.sha512",
+    "/home/danilochristovam/.nuget/packages/swashbuckle.aspnetcore/6.6.2/swashbuckle.aspnetcore.6.6.2.nupkg.sha512",
+    "/home/danilochristovam/.nuget/packages/swashbuckle.aspnetcore.swagger/6.6.2/swashbuckle.aspnetcore.swagger.6.6.2.nupkg.sha512",
+    "/home/danilochristovam/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.6.2/swashbuckle.aspnetcore.swaggergen.6.6.2.nupkg.sha512",
+    "/home/danilochristovam/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.6.2/swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512"
+  ],
+  "logs": []
+}

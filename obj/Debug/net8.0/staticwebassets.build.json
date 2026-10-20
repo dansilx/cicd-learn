@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "SrZGG5/CDu7mR/3xDA2pM7QPfaQpSJrVt5yVw1/7Ml8=",
+  "Source": "cicd-learn",
+  "BasePath": "_content/cicd-learn",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

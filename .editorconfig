@@ -1,0 +1,14 @@
+root = true
+
+[*.cs]
+# Ativa a análise de código C# no build
+dotnet_analyzer_diagnostic.severity = warning
+
+# Exemplo de regra crítica de segurança marcada como ERRO (bloqueia o dotnet build)
+# CS8600 - Conversão de literal nula ou possível valor nulo
+dotnet_diagnostic.CS8600.severity = error
+
+# Regras do SonarAnalyzer configuradas para bloquear compilação em caso de falha crítica
+dotnet_diagnostic.S2077.severity = error  # Prevenção contra SQL Injection
+dotnet_diagnostic.S2111.severity = error  # Segurança na geração de números aleatórios
+dotnet_diagnostic.S4507.severity = error  # Desativação de modo de depuração em produção
