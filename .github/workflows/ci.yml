@@ -1,26 +1,76 @@
 name: CI/CD Pipeline
 
 on: 
-  push:
-    branches: [ "main" ]
   pull_request:
+    branches: ["main"]
+  push:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  security-and-quality:
+    name: Security Scans, Tests & Quality Gate
     runs-on: ubuntu-ubuntu-latest
 
     steps:
-      - name: Checkout do Código
-        uses: actions/checkout@v4
-
-      - name: Configurar .NET
+      # Checkout do Código
+      - name: Checkout repository
+        uses: actions/checkot@v4
+        with:
+          fetch-depth: 0
+      
+      # Secret Scanning (Gitleaks)
+      - name: Gitleaks - Secret Scanning
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Configuração do Ambiente .NET
+      - name: Setup .NET 8
         uses: actions/setup-dotnet@v4
         with: 
           dotnet-version: '8.0.x'
 
-      - name: Executar Testes Unitários
-        run: dotnet test --verbosity normal
+      # SCA - Análise de Vulnerabilidades em Dependências (OWASP - Dependency-Check)
+      - name: OWASP Dependency-Check (SCA)
+        uses: dependency-check/Dependency-Check_Action@main
+        with: 
+          project: 'cicd-learn'
+          path: '.'
+          format: 'XML'
+          out: 'reports'
 
-      - name: Build da Imagem Docker
+      # Execução de Testes Unitários + Cobertura (coverlet)
+      - name: Run Tests with Coverage (coverlet)
+        run: |
+          dotnet test --collect:"XPlat Code Coverage" --results-directory ./coverage
+
+      # Análise Estática SAST & Quality Gate (SonarQube)
+      - name: Install SonarScanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: SonarQube Analysis
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet-sonarscanner begin \
+            /k: "cicd-learn" \
+            /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.cs.opencover.reportsPaths="coverage/**/coverage.opencover.xml"
+          dotnet build
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+      # Build do Container Docker
+      - name: Build Docker Image
         run: docker build -t cicd-learn:${{ github.sha }} .
+
+      # Análise de Vulnerabilidades em Containers (Trivy)
+      - name: Trivy Container Vulnerability Scanning
+        uses: aquasecurity/trivy-action@master
+        with: 
+          image-ref: 'cicd-learn:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
